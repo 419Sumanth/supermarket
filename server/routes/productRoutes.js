@@ -1,0 +1,39 @@
+
+import express from "express";
+import Product from "../models/product.js";
+
+const router = express.Router();
+
+
+router.post("/add", async (req, res) => {
+  try {
+    console.log("PRODUCT POST BODY:", req.body);
+
+    const product = new Product(req.body);
+    const savedProduct = await product.save();
+
+    console.log("PRODUCT SAVED:", savedProduct);
+
+    res.status(201).json(savedProduct);
+  } catch (error) {
+    console.error("PRODUCT SAVE ERROR:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+router.get("/", async (req, res) => {
+  try {
+    const products = await Product.find();
+    console.log("TOTAL PRODUCTS:", products.length);
+
+    res.status(200).json(products);
+  } catch (error) {
+    console.error("GET PRODUCTS ERROR:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+export default router;
+
+
