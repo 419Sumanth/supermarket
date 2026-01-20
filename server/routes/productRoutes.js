@@ -1,8 +1,20 @@
 
 import express from "express";
-import Product from "../models/product.js";
+import Product from "../models/Product.js";
+import {
+  addProduct,
+  getAllProducts,
+  getProductById,
+  deleteProduct
+} from "../controllers/ProductController.js";
 
 const router = express.Router();
+
+router.post("/add", addProduct);
+router.get("/", getAllProducts);
+router.get("/:id", getProductById);
+router.delete("/:id", deleteProduct);
+
 
 
 router.post("/add", async (req, res) => {
