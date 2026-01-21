@@ -1,8 +1,21 @@
 import express from "express";
 import Purchase from "../models/Purchase.js";
 
+import authMiddleware from "../middleware/authMiddleware.js";
+import {
+  addPurchase,
+  getAllPurchases,
+  getPurchaseById,
+  deletePurchase
+} from "../controllers/purchaseController.js";
 const router = express.Router();
 
+router.post("/add",authMiddleware, addPurchase);
+router.get("/", authMiddleware, getAllPurchases);
+router.get("/:id", authMiddleware, getPurchaseById);
+router.delete("/:id", authMiddleware, deletePurchase);
+
+ 
 /* --------------------------------
    TEST ROUTE
 --------------------------------- */

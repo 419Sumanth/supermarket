@@ -7,13 +7,15 @@ import {
   getProductById,
   deleteProduct
 } from "../controllers/ProductController.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/add", addProduct);
-router.get("/", getAllProducts);
-router.get("/:id", getProductById);
-router.delete("/:id", deleteProduct);
+router.post("/add",authMiddleware, addProduct);
+router.get("/",authMiddleware, getAllProducts);
+router.get("/:id",authMiddleware, getProductById);
+router.delete("/:id",authMiddleware, deleteProduct);
+
 
 
 

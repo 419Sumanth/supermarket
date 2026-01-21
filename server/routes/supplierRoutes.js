@@ -1,8 +1,24 @@
 import express from "express";
 import Supplier from "../models/Supplier.js";
+import {
+  addSupplier,
+  getAllSuppliers,
+  getSupplierById,
+  updateSupplier,
+  deleteSupplier
+} from "../controllers/SupplierController.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = express.Router();
+router.post("/add", authMiddleware, addSupplier);
+router.get("/", authMiddleware, getAllSuppliers);
+router.get("/:id", authMiddleware, getSupplierById);
+router.put("/:id", authMiddleware, updateSupplier);
+router.delete("/:id", authMiddleware, deleteSupplier);
 
+
+
+ 
 /**
  * @route   POST /api/suppliers/add
  * @desc    Add new supplier
