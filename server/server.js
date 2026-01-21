@@ -1,6 +1,6 @@
 
-//MONGO_URI=mongodb+srv://Sumanth:dbsumanth@supermarket.ric0sta.mongodb.net/supermarket
 
+//MONGO_URI=mongodb+srv://Sumanth:dbsumanth@supermarket.3ielfdt.mongodb.net/supermarket
 import dotenv from "dotenv";
 import express from "express";
 import connectDB from "./config/db.js";
@@ -12,7 +12,7 @@ import productRoutes from "./routes/productRoutes.js";
 import purchaseRoutes from "./routes/purchaseRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import stockRoutes from "./routes/stockRoutes.js";
-import connectDB from "./config/db.js";
+
 
 dotenv.config();
 connectDB();

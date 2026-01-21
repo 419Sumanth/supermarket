@@ -42,7 +42,6 @@ const userSchema = new mongoose.Schema({
 
   /*
   {
-  "userId": "65a8f4c7f9a1b2c3d4e5f678",
   "Name": "Sumanth Bhat",
   "Type": "Admin",
   "password": "Admin@123",

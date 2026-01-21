@@ -17,3 +17,4 @@ const authMiddleware = (req, res, next) => {
 };
 
 export default authMiddleware;
+// "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5NzBhOTgxYjE2ZWY2OGRlNjkzMWM1MiIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTc2ODk5MTMyNywiZXhwIjoxNzY5MDc3NzI3fQ.Dr2nBZ6xtZz4khZ8NSrcufbEsD0rpFlO9X-9A3Q0zWw",

@@ -41,7 +41,7 @@ const Purchase = mongoose.model("Purchase", purchaseSchema);
 export default Purchase;
 /*
 {
-  "userId": "65b0f8d4a1234bcde5678901",
+  "userId": "6970a981b16ef68de6931c52",
   "quantity": 20,
   "purchasePrice": 4800,
   "paymentstatus": false,
