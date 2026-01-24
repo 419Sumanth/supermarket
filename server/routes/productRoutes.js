@@ -6,7 +6,7 @@ import {
   getAllProducts,
   getProductById,
   deleteProduct
-} from "../controllers/ProductController.js";
+} from "../controllers/productController.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = express.Router();
