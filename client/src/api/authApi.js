@@ -1,7 +1,8 @@
 import api from "./axios";
 
+
 // LOGIN
-const login = (data) => api.post("/auth/login", data);
+const loginUser = (data) => api.post("/auth/login", data);
 
 // REGISTER
 const register = (data) => api.post("/auth/register", data);
@@ -13,7 +14,7 @@ const getProfile = () => api.get("/users/me");
 const updateProfile = (data) => api.put("/users/me", data);
 
 export default {
-  login,
+  loginUser,
   register,
   getProfile,
   updateProfile,
