@@ -1,5 +1,6 @@
 import AdminNavbar from "./AdminNavbar";
 import AdminSidebar from "./AdminSidebar";
+import { Outlet } from "react-router-dom";
 
 function AdminDashboard() {
   return (
@@ -10,8 +11,7 @@ function AdminDashboard() {
         <AdminSidebar />
 
         <div className="flex-grow-1 p-4">
-          <h3>Admin Dashboard</h3>
-          <p>Select an option from the sidebar.</p>
+          <Outlet />
         </div>
       </div>
     </>

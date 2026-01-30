@@ -1,9 +1,18 @@
+import { useNavigate } from "react-router-dom";
+
 function AdminNavbar() {
+  const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
+
   return (
     <nav className="navbar navbar-dark bg-dark px-3">
-      <span className="navbar-brand">Super Market Admin</span>
+      <span className="navbar-brand">Admin Dashboard</span>
 
-      <button className="btn btn-outline-light">
+      <button className="btn btn-outline-light" onClick={logout}>
         Logout
       </button>
     </nav>

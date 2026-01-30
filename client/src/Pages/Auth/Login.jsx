@@ -1,67 +1,55 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 function Login() {
   const navigate = useNavigate();
-  const [role, setRole] = useState("user");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // 🔒 Redirect if already logged in
+  useEffect(() => {
+    const role = localStorage.getItem("role");
+    if (role === "admin") navigate("/admin");
+    if (role === "user") navigate("/user");
+  }, [navigate]);
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    if (role === "admin") {
+    // TEMP logic (backend later)
+    if (email === "admin@admin.com") {
+      localStorage.setItem("role", "admin");
       navigate("/admin");
     } else {
+      localStorage.setItem("role", "user");
       navigate("/user");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <form
-        onSubmit={handleLogin}
-        className="bg-white p-6 rounded shadow w-96"
-      >
-        <h2 className="text-xl font-bold mb-4">Login</h2>
+    <div className="container mt-5" style={{ maxWidth: "400px" }}>
+      <h3 className="mb-3">Login</h3>
 
+      <form onSubmit={handleLogin}>
         <input
+          className="form-control mb-2"
           type="email"
           placeholder="Email"
-          className="w-full mb-3 p-2 border rounded"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
 
         <input
+          className="form-control mb-3"
           type="password"
           placeholder="Password"
-          className="w-full mb-3 p-2 border rounded"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           required
         />
 
-        <select
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-          className="w-full mb-4 p-2 border rounded"
-        >
-          <option value="user">User</option>
-          <option value="admin">Admin</option>
-        </select>
-
-        <button className="w-full bg-blue-600 text-white p-2 rounded">
-          Login
-        </button>
-
-        {/* ✅ Register visible ONLY for users */}
-        {role === "user" && (
-          <p className="mt-3 text-sm text-center">
-            Not a member?{" "}
-            <span
-              className="text-blue-600 cursor-pointer"
-              onClick={() => navigate("/register")}
-            >
-              Register
-            </span>
-          </p>
-        )}
+        <button className="btn btn-primary w-100">Login</button>
       </form>
     </div>
   );

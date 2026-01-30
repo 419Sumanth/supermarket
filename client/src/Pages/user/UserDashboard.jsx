@@ -1,5 +1,6 @@
 import UserNavbar from "./UserNavbar";
 import UserSidebar from "./UserSidebar";
+import { Outlet } from "react-router-dom";
 
 function UserDashboard() {
   return (
@@ -10,8 +11,7 @@ function UserDashboard() {
         <UserSidebar />
 
         <div className="flex-grow-1 p-4">
-          <h3>User Dashboard</h3>
-          <p>Welcome to your dashboard.</p>
+          <Outlet />
         </div>
       </div>
     </>

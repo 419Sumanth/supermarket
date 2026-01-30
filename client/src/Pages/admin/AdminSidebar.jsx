@@ -1,33 +1,45 @@
+import { NavLink } from "react-router-dom";
+
+const linkStyle = ({ isActive }) => ({
+  cursor: "pointer",
+  padding: "8px 12px",
+  borderRadius: "6px",
+  textDecoration: "none",
+  color: isActive ? "#fff" : "#212529",
+  backgroundColor: isActive ? "#0d6efd" : "transparent",
+  display: "block",
+});
+
 function AdminSidebar() {
   return (
     <div
       className="bg-light border-end"
       style={{ width: "220px", minHeight: "100vh" }}
     >
-      <ul className="nav flex-column p-3">
-        <li className="nav-item mb-2">
-          <span className="fw-bold">Dashboard</span>
-        </li>
+      <ul className="nav flex-column p-3 gap-1">
+        <NavLink to="/admin" end style={linkStyle}>
+          Dashboard
+        </NavLink>
 
-        <li className="nav-item mb-2">
-          <span className="nav-link text-dark">Products</span>
-        </li>
+        <NavLink to="/admin/products" style={linkStyle}>
+          Products
+        </NavLink>
 
-        <li className="nav-item mb-2">
-          <span className="nav-link text-dark">Suppliers</span>
-        </li>
+        <NavLink to="/admin/suppliers" style={linkStyle}>
+          Suppliers
+        </NavLink>
 
-        <li className="nav-item mb-2">
-          <span className="nav-link text-dark">Purchases</span>
-        </li>
+        <NavLink to="/admin/purchases" style={linkStyle}>
+          Purchases
+        </NavLink>
 
-        <li className="nav-item mb-2">
-          <span className="nav-link text-dark">Orders</span>
-        </li>
+        <NavLink to="/admin/orders" style={linkStyle}>
+          Orders
+        </NavLink>
 
-        <li className="nav-item mb-2">
-          <span className="nav-link text-danger">Low Stock Alerts</span>
-        </li>
+        <NavLink to="/admin/alerts" style={linkStyle}>
+          Low Stock Alerts
+        </NavLink>
       </ul>
     </div>
   );

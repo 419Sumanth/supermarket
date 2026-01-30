@@ -1,29 +1,37 @@
+import { NavLink } from "react-router-dom";
+
+const linkStyle = ({ isActive }) => ({
+  cursor: "pointer",
+  padding: "8px 12px",
+  borderRadius: "6px",
+  textDecoration: "none",
+  color: isActive ? "#fff" : "#212529",
+  backgroundColor: isActive ? "#0d6efd" : "transparent",
+  display: "block",
+});
+
 function UserSidebar() {
   return (
     <div
       className="bg-light border-end"
       style={{ width: "220px", minHeight: "100vh" }}
     >
-      <ul className="nav flex-column p-3">
-        <li className="nav-item mb-2">
-          <span className="fw-bold">Dashboard</span>
-        </li>
+      <ul className="nav flex-column p-3 gap-1">
+        <NavLink to="/user" end style={linkStyle}>
+          Home
+        </NavLink>
 
-        <li className="nav-item mb-2">
-          <span className="nav-link text-dark">Home</span>
-        </li>
+        <NavLink to="/user/products" style={linkStyle}>
+          Products
+        </NavLink>
 
-        <li className="nav-item mb-2">
-          <span className="nav-link text-dark">Products</span>
-        </li>
+        <NavLink to="/user/orders" style={linkStyle}>
+          My Orders
+        </NavLink>
 
-        <li className="nav-item mb-2">
-          <span className="nav-link text-dark">My Orders</span>
-        </li>
-
-        <li className="nav-item mb-2">
-          <span className="nav-link text-dark">Profile</span>
-        </li>
+        <NavLink to="/user/profile" style={linkStyle}>
+          Profile
+        </NavLink>
       </ul>
     </div>
   );
