@@ -1,8 +1,20 @@
+import AdminNavbar from "./AdminNavbar";
+import AdminSidebar from "./AdminSidebar";
+
 function AdminDashboard() {
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-    </div>
+    <>
+      <AdminNavbar />
+
+      <div className="d-flex">
+        <AdminSidebar />
+
+        <div className="flex-grow-1 p-4">
+          <h3>Admin Dashboard</h3>
+          <p>Select an option from the sidebar.</p>
+        </div>
+      </div>
+    </>
   );
 }
 

@@ -1,8 +1,20 @@
+import UserNavbar from "./UserNavbar";
+import UserSidebar from "./UserSidebar";
+
 function UserDashboard() {
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold">User Dashboard</h1>
-    </div>
+    <>
+      <UserNavbar />
+
+      <div className="d-flex">
+        <UserSidebar />
+
+        <div className="flex-grow-1 p-4">
+          <h3>User Dashboard</h3>
+          <p>Welcome to your dashboard.</p>
+        </div>
+      </div>
+    </>
   );
 }
 
