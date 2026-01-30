@@ -1,50 +1,19 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
-// Auth pages
-import Login from "../Auth/Login";
-import Register from "../Auth/Register";
+import Login from "../Pages/Auth/Login.jsx";
+import Register from "../Pages/Auth/Register.jsx";
+import AdminDashboard from "../Pages/admin/AdminDashboard.jsx";
+import UserDashboard from "../Pages/user/UserDashboard.jsx";
 
-// Dashboards
-import UserDashboard from "../Pages/user/UserDashboard";
-import AdminDashboard from "../Pages/admin/AdminDashboard";
-
-// Protection
-import ProtectedRoute from "./ProtectedRoute";
-
-// Other pages
-import Unauthorized from "../Pages/Unauthorized";
-import NotFound from "../Pages/NotFound";
-
-const AppRoutes = () => {
+function AppRoutes() {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* 🔓 Public Routes */}
-        <Route path="/" element={<Login />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-
-
-        {/* 🔐 User Protected Routes */}
-        <Route element={<ProtectedRoute allowedRoles={["user"]} />}>
-          <Route path="/user/*" element={<UserDashboard />} />
-        </Route>
-
-        {/* 🔐 Admin Protected Routes */}
-        <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
-          <Route path="/admin/*" element={<AdminDashboard />} />
-        </Route>
-        <Route path="/admin/products" element={<AdminProducts />} />
-
-
-        {/* 🚫 Unauthorized */}
-        <Route path="/unauthorized" element={<Unauthorized />} />
-
-        {/* ❌ 404 */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/admin" element={<AdminDashboard />} />
+      <Route path="/user" element={<UserDashboard />} />
+    </Routes>
   );
-};
+}
 
 export default AppRoutes;
