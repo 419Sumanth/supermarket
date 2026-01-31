@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import authApi from "../../api/authApi";
 
 function Login() {
   const navigate = useNavigate();
@@ -14,24 +13,18 @@ function Login() {
     if (role === "user") navigate("/user");
   }, [navigate]);
 
-  
+  const handleLogin = (e) => {
+    e.preventDefault();
 
-const handleLogin = async (e) => {
-  e.preventDefault();
-
-  try {
-    const res = await authApi.login({ email, password });
-
-    localStorage.setItem("token", res.data.token);
-    localStorage.setItem("role", res.data.role);
-
-    if (res.data.role === "admin") navigate("/admin");
-    else navigate("/user");
-  } catch (err) {
-    alert("Invalid credentials");
-  }
-};
-
+    // TEMP logic (backend later)
+    if (email === "admin@admin.com") {
+      localStorage.setItem("role", "admin");
+      navigate("/admin");
+    } else {
+      localStorage.setItem("role", "user");
+      navigate("/user");
+    }
+  };
 
   return (
     <div className="container mt-5" style={{ maxWidth: "400px" }}>
