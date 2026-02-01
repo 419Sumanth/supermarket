@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom";
 function UserNavbar() {
   const navigate = useNavigate();
 
-  const logout = () => {
-    localStorage.clear();
-    navigate("/");
-  };
+ const logout = () => {
+  localStorage.removeItem("role");
+  navigate("/");
+};
+
 
   return (
     <nav className="navbar navbar-dark bg-primary px-3">

@@ -29,6 +29,10 @@ function UserSidebar() {
           My Orders
         </NavLink>
 
+        <NavLink to="/user/cart" style={linkStyle}>
+          Cart
+        </NavLink>
+
         <NavLink to="/user/profile" style={linkStyle}>
           Profile
         </NavLink>

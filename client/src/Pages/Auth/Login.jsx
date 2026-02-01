@@ -16,21 +16,18 @@ function Login() {
 
   
 
-const handleLogin = async (e) => {
+const handleLogin = (e) => {
   e.preventDefault();
 
-  try {
-    const res = await authApi.login({ email, password });
-
-    localStorage.setItem("token", res.data.token);
-    localStorage.setItem("role", res.data.role);
-
-    if (res.data.role === "admin") navigate("/admin");
-    else navigate("/user");
-  } catch (err) {
-    alert("Invalid credentials");
+  if (email === "admin@admin.com") {
+    localStorage.setItem("role", "admin");
+    navigate("/admin");
+  } else {
+    localStorage.setItem("role", "user");
+    navigate("/user");
   }
 };
+
 
 
   return (

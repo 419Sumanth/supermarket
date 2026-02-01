@@ -4,9 +4,10 @@ function AdminNavbar() {
   const navigate = useNavigate();
 
   const logout = () => {
-    localStorage.clear();
-    navigate("/");
-  };
+  localStorage.removeItem("role");
+  navigate("/");
+};
+
 
   return (
     <nav className="navbar navbar-dark bg-dark px-3">

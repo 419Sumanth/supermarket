@@ -21,6 +21,7 @@ import UserHome from "../Pages/user/Home";
 import UserProducts from "../Pages/user/Products";
 import UserOrders from "../Pages/user/Orders";
 import UserProfile from "../Pages/user/Profile";
+import UserCart from "../Pages/user/Cart";
 
 function AppRoutes() {
   return (
@@ -48,6 +49,7 @@ function AppRoutes() {
           <Route path="products" element={<UserProducts />} />
           <Route path="orders" element={<UserOrders />} />
           <Route path="profile" element={<UserProfile />} />
+          <Route path="cart" element={<UserCart />} />
         </Route>
       </Route>
 

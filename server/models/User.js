@@ -41,6 +41,10 @@ const userSchema = new mongoose.Schema({
   export default Users;
 
   /*
+   URL: http://localhost:5000/api/auth/register
+  Method: POST
+  Body: JSON
+  
   {
   "Name": "Sumanth Bhat",
   "Type": "Admin",
