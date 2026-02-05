@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import authApi from "../../api/authApi";
+import instance from "../../api/axios";
 
 function Login() {
   const navigate = useNavigate();
@@ -16,18 +17,23 @@ function Login() {
 
   
 
-const handleLogin = (e) => {
+const handleLogin = async (e) => {
   e.preventDefault();
 
-  if (email === "admin@admin.com") {
-    localStorage.setItem("role", "admin");
-    navigate("/admin");
-  } else {
-    localStorage.setItem("role", "user");
-    navigate("/user");
+  try {
+    const res = await authApi.login({
+      email,
+      password,
+    });
+
+    console.log("LOGIN RESPONSE 👉", res.data);
+    alert("Check console for login response");
+
+  } catch (error) {
+    console.error("LOGIN ERROR 👉", error);
+    alert("Login failed - check console");
   }
 };
-
 
 
   return (

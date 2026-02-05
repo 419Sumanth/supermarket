@@ -97,6 +97,8 @@ export const registerUser = async (req, res) => {
       message: "Login successful",
       token,
       user
+      //userType: user.Type
+      //userEmail: user.Email
     });
 
   } catch (error) {
