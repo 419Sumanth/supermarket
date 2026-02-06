@@ -1,4 +1,5 @@
 import StockAlert from "../models/StockAlert.js";
+import Product from "../models/Product.js";
 
 /**
  * @desc    Create stock alert
@@ -87,3 +88,47 @@ export const deleteStockAlert = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+export const getLowStockCount = async (req, res) => {
+  try {
+
+    if (!req.isAuth && req.userRole !== "Admin") {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized"
+      });
+    }
+
+    const products = await Product.find().populate("supplierId", "name");
+
+    let lowStockCount = 0;
+    let lowStockItems = [];
+
+    products.forEach((product) => {
+      if (product.quantity < product.lowStock) {
+        lowStockCount++;
+
+        lowStockItems.push({
+          productName: product.name,
+          supplierName: product.supplierId ? product.supplierId.name : "No Supplier",
+          quantityLeft: product.quantity,
+          lowStockLimit: product.lowStock
+        });
+      }
+    });
+
+    res.status(200).json({
+      success: true,
+      lowStockCount,
+      // lowStockItems  //use this in future to show details of low stock items
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch low stock summary",
+      error: error.message
+    });
+  }
+
+}

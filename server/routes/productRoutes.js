@@ -5,46 +5,18 @@ import {
   addProduct,
   getAllProducts,
   getProductById,
-  deleteProduct
+  deleteProduct,
+  getProductsCount
 } from "../controllers/productController.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.post("/add",  addProduct);
+router.post("/add",  addProduct); // add authMiddleware here later
 router.get("/", getAllProducts);
+router.get("/count",authMiddleware,getProductsCount); // only admin can see total count of products, so add authMiddleware here
 router.get("/:id", getProductById);
-router.delete("/:id",  deleteProduct);
-
-
-// router.post("/add", async (req, res) => {
-//   try {
-//     console.log("PRODUCT POST BODY:", req.body);
-
-//     const product = new Product(req.body);
-//     const savedProduct = await product.save();
-
-//     console.log("PRODUCT SAVED:", savedProduct);
-
-//     res.status(201).json(savedProduct);
-//   } catch (error) {
-//     console.error("PRODUCT SAVE ERROR:", error.message);
-//     res.status(500).json({ error: error.message });
-//   }
-// });
-
-
-// router.get("/", async (req, res) => {
-//   try {
-//     const products = await Product.find();
-//     console.log("TOTAL PRODUCTS:", products.length);
-
-//     res.status(200).json(products);
-//   } catch (error) {
-//     console.error("GET PRODUCTS ERROR:", error.message);
-//     res.status(500).json({ error: error.message });
-//   }
-// });
+router.delete("/:id", deleteProduct); // add authMiddleware here later
 
 export default router;
 

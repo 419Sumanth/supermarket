@@ -79,6 +79,33 @@ export const getAllProducts = async (req, res) => {
  * @desc   Get single product by ID
  * @route  GET /api/products/:id
  */
+
+export const getProductsCount = async (req, res) => {
+
+  try {
+
+    if (!req.isAuth && req.userRole !== "Admin") {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized"
+      });
+    }
+
+    const count = await Product.countDocuments();
+
+    res.status(200).json({
+      success: true,
+      count
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch product count",
+      error: error.message
+    });
+  }
+}
+
 export const getProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id).populate("supplierId");
