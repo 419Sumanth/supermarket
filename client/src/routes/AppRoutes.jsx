@@ -22,6 +22,7 @@ import UserProducts from "../Pages/user/Products";
 import UserOrders from "../Pages/user/Orders";
 import UserProfile from "../Pages/user/Profile";
 import UserCart from "../Pages/user/Cart";
+import Products from "../Pages/user/Products";
 
 function AppRoutes() {
   return (
@@ -31,7 +32,7 @@ function AppRoutes() {
       <Route path="/register" element={<Register />} />
 
       {/* ADMIN PROTECTED */}
-      <Route element={<ProtectedRoute allowedRole="admin" />}>
+      <Route element={<ProtectedRoute allowedRole="Admin" />}>
         <Route path="/admin" element={<AdminDashboard />}>
           <Route index element={<AdminHome />} />
           <Route path="products" element={<AdminProducts />} />
@@ -43,10 +44,10 @@ function AppRoutes() {
       </Route>
 
       {/* USER PROTECTED */}
-      <Route element={<ProtectedRoute allowedRole="user" />}>
+      <Route element={<ProtectedRoute allowedRole="User" />}>
         <Route path="/user" element={<UserDashboard />}>
           <Route index element={<UserHome />} />
-          <Route path="products" element={<UserProducts />} />
+          <Route path="products" element={<UserProducts restrict={false}/>} />
           <Route path="orders" element={<UserOrders />} />
           <Route path="profile" element={<UserProfile />} />
           <Route path="cart" element={<UserCart />} />

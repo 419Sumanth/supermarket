@@ -53,5 +53,5 @@ const userSchema = new mongoose.Schema({
   "DOB": 1999,
   "Mobile": 9876543210,
   "isActive": true
-}
+  }
  */

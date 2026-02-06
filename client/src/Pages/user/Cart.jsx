@@ -70,7 +70,7 @@ function Cart() {
 
             <tbody>
               {cart.map((item) => (
-                <tr key={item.id}>
+                <tr key={item._id}>
                   <td>{item.name}</td>
                   <td>{item.quantity}</td>
                   <td>{item.price}</td>

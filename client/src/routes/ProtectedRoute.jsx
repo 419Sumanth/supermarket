@@ -1,4 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
+import authApi from "../api/authApi";
 
 function ProtectedRoute({ allowedRole }) {
   const role = localStorage.getItem("role");

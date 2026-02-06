@@ -2,9 +2,7 @@ import jwt from "jsonwebtoken";
 import Users from "../models/User.js";
 import bcrypt from "bcryptjs";
 
-/* ===============================
-   REGISTER USER
-================================ */
+// Registering User
 export const registerUser = async (req, res) => {
   try {
     const {
@@ -65,10 +63,10 @@ export const registerUser = async (req, res) => {
   }
 };
 
-/* ===============================
-   LOGIN USER
-================================ */
+// Logging user In
   export const loginUser = async (req, res) => {
+
+    console.log("In loginUser controller with body:", req.body);
   try {
     const { Email, password } = req.body;
 
@@ -86,9 +84,9 @@ export const registerUser = async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    // 🔐 CREATE TOKEN
+    // 🔐 CREATE TOKEN with just user._id
     const token = jwt.sign(
-      { id: user._id, role: user.Type },
+      { id: user._id},
       process.env.JWT_SECRET,
       { expiresIn: "1d" }
     );
@@ -96,9 +94,9 @@ export const registerUser = async (req, res) => {
     res.status(200).json({
       message: "Login successful",
       token,
-      user
-      //userType: user.Type
-      //userEmail: user.Email
+      userType: user.Type,
+      userId: user._id,
+      userEmail: user.Email
     });
 
   } catch (error) {
@@ -107,4 +105,36 @@ export const registerUser = async (req, res) => {
   }
 };
 
+export const getProfile = async (req, res) => {
+
+   try {
+
+    if (!req.isAuth) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized Request"
+      });
+    }
+    const user = await Users.findById(req.user.id).select("-password").select("-__v").select("-createdAt").select("-isActive");
+    
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found"
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      user
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch profile",
+      error: error.message
+    });
+  }
+}
  

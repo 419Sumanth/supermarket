@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import express from "express";
 import connectDB from "./config/db.js";
 import cors from "cors";
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 
 import supplierRoutes from "./routes/supplierRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
@@ -21,7 +21,11 @@ const app = express();
 const port =  5000;
 
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
+
+app.use(cors({
+  origin: "http://localhost:5173",
+}));
 
 
 app.get("/", (req, res) => {
