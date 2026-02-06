@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import Products from "./Products";
 
 function Home() {
   const navigate = useNavigate();
@@ -46,7 +47,11 @@ function Home() {
       {/* Featured Products */}
       <h5 className="mt-4">Featured Products</h5>
 
-      <div className="row mt-2">
+      <div>
+        <Products restrict={true}/>
+      </div>
+
+      {/* <div className="row mt-2">
         {products.map((p) => (
           <div className="col-md-4 mb-3" key={p.id}>
             <div className="card h-100 shadow-sm">
@@ -64,7 +69,7 @@ function Home() {
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
     </>
   );
 }

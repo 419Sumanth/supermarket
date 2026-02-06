@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
+import Users from "../models/User.js";
 
-const authMiddleware = (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
 
   if (!token) {
@@ -10,7 +11,16 @@ const authMiddleware = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded; // id & role
+    const userId = req.user.id;
+
+    const userFound = await Users.findById(req.user.id);
+    if (!userFound) {
+      //check whether it's still forwarded to next() or not
+      return res.status(401).json({ message: "Token invalid or user not found" });
+    }
+    req.isAuth = true;
     next();
+
   } catch (error) {
     res.status(401).json({ message: "Invalid token" });
   }

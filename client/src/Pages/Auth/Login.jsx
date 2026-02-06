@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import authApi from "../../api/authApi";
 import instance from "../../api/axios";
+import axios from "axios";
+// import { get } from "mongoose";
 
 function Login() {
   const navigate = useNavigate();
@@ -11,29 +13,39 @@ function Login() {
   // 🔒 Redirect if already logged in
   useEffect(() => {
     const role = localStorage.getItem("role");
-    if (role === "admin") navigate("/admin");
-    if (role === "user") navigate("/user");
+    if (role === "Admin") navigate("/admin");
+    if (role === "User") navigate("/user");
   }, [navigate]);
 
-  
 
-const handleLogin = async (e) => {
-  e.preventDefault();
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    // console.log("Logging in with:", { email, password });
+    try {
+      const res = await authApi.login({
+        Email : email,
+        password: password,
+      });
 
-  try {
-    const res = await authApi.login({
-      email,
-      password,
-    });
+      console.log("LOGIN RESPONSE ", res.data);
+      // alert("Check console for login response");
+    
+      //get the user type and email from the response
+      const { userId,userType, userEmail } = res.data;
+      localStorage.setItem("role", userType);
+      localStorage.setItem("token", res.data.token);
 
-    console.log("LOGIN RESPONSE 👉", res.data);
-    alert("Check console for login response");
-
-  } catch (error) {
-    console.error("LOGIN ERROR 👉", error);
-    alert("Login failed - check console");
-  }
-};
+      if (userType === "Admin") {
+        navigate("/admin");
+      } else {
+        navigate("/user");
+        // console.log("Navigated to user dashboard");
+      }
+    } catch (error) {
+      console.error("LOGIN ERROR 👉", error);
+      alert("Login failed - check console");
+    }
+  };
 
 
   return (

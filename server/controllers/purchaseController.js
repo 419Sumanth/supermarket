@@ -105,6 +105,36 @@ export const getPurchaseById = async (req, res) => {
   }
 };
 
+export const getPurchaseByUserId = async (req, res) => {
+
+   try {
+    if (!req.isAuth) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized"
+      });
+    }
+
+    const userId = req.user.id;
+
+    const purchases = await Purchase.find({ userId })
+      .sort({ purchaseDate: -1 }); // latest first
+
+    return res.status(200).json({
+      success: true,
+      purchases
+    });
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch purchases",
+      error: error.message
+    });
+  }
+}
+
+
 /**
  * @desc   Delete purchase
  * @route  DELETE /api/purchases/:id
