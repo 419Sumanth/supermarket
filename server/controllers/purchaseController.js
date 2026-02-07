@@ -4,52 +4,73 @@ import Purchase from "../models/Purchase.js";
  * @desc   Create a new purchase
  * @route  POST /api/purchases/add
  */
-export const addPurchase = async (req, res) => {
-  try {
-    const {
-      userId,
-      quantity,
-      purchasePrice,
-      paymentstatus,
-      supplierName,
-      purchaseDate
-    } = req.body;
 
-    // Validation
-    if (
-      !userId ||
-      !quantity ||
-      !purchasePrice ||
-      paymentstatus === undefined ||
-      !supplierName
-    ) {
-      return res.status(400).json({
+export const addPurchase = async (req, res) => {
+
+  // console.log("addPurchase called with body:", req.body);
+
+  try {
+    if (!req.isAuth && req.userRole === "User") {
+      return res.status(401).json({
         success: false,
-        message: "All required fields must be provided"
+        message: "Unauthorized"
       });
     }
 
+    const { numberOfItems, items, purchasePrice, paymentstatus } = req.body;
+
+    // validations
+    if (!items || items.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Items are required"
+      });
+    }
+
+    if (purchasePrice === undefined) {
+      return res.status(400).json({
+        success: false,
+        message: "purchasePrice is required"
+      });
+    }
+
+    if (paymentstatus === undefined) {
+      return res.status(400).json({
+        success: false,
+        message: "paymentstatus is required"
+      });
+    }
+
+    // validate each item
+    for (let item of items) {
+      if (!item.productId || !item.name || !item.quantity || !item.price) {
+        return res.status(400).json({
+          success: false,
+          message: "Each item must include productId, name, quantity, and price"
+        });
+      }
+    }
+
     const newPurchase = new Purchase({
-      userId,
-      quantity,
-      purchasePrice,
-      paymentstatus,
-      supplierName,
-      purchaseDate
+      userId: req.user.id,
+      numberOfItems: numberOfItems,
+      items: items,
+      purchasePrice: purchasePrice,
+      paymentstatus: paymentstatus
     });
 
     const savedPurchase = await newPurchase.save();
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: "Purchase added successfully",
       data: savedPurchase
     });
+
   } catch (error) {
-    console.error("PURCHASE SAVE ERROR:", error.message);
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: "Server error",
+      message: "Failed to add purchase",
       error: error.message
     });
   }

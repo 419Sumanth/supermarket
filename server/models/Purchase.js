@@ -9,22 +9,40 @@ const purchaseSchema = new mongoose.Schema(
       required: true
     },
 
-    quantity: {
+    numberOfItems: {
       type: Number,
       required: true
     },
+
+    items: [
+      {
+         productId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "products",
+          required: true
+        },
+        name: {
+          type: String,
+          required: true
+        },
+        quantity: {
+          type: Number,
+          required: true
+        },
+        price: {
+          type: Number,
+          required: true
+        }
+      }
+    ],
 
     purchasePrice: {
       type: Number,
       required: true
     },
+
     paymentstatus: {
       type: Boolean,
-      required: true
-    },
-
-    supplierName: {
-      type: String,
       required: true
     },
 
