@@ -6,6 +6,14 @@ import Supplier from "../models/Supplier.js";
  */
 export const addSupplier = async (req, res) => {
   try {
+
+     if (!req.isAuth && req.userRole !== "Admin") {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized"
+      });
+    }
+
     const { name, email, phone, address, isActive } = req.body;
 
     if (!name || !email || !phone || !address) {
@@ -35,6 +43,14 @@ export const addSupplier = async (req, res) => {
  */
 export const getAllSuppliers = async (req, res) => {
   try {
+
+     if (!req.isAuth) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized"
+      });
+    }
+
     const suppliers = await Supplier.find().sort({ createdAt: -1 });
     res.status(200).json(suppliers);
   } catch (error) {
@@ -49,6 +65,14 @@ export const getAllSuppliers = async (req, res) => {
  */
 export const getSupplierById = async (req, res) => {
   try {
+
+     if (!req.isAuth && req.userRole !== "Admin") {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized"
+      });
+    }
+
     const supplier = await Supplier.findById(req.params.id);
 
     if (!supplier) {
@@ -68,6 +92,14 @@ export const getSupplierById = async (req, res) => {
  */
 export const updateSupplier = async (req, res) => {
   try {
+
+     if (!req.isAuth && req.userRole !== "Admin") {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized"
+      });
+    }
+
     const updatedSupplier = await Supplier.findByIdAndUpdate(
       req.params.id,
       req.body,
@@ -91,6 +123,14 @@ export const updateSupplier = async (req, res) => {
  */
 export const deleteSupplier = async (req, res) => {
   try {
+
+     if (!req.isAuth && req.userRole !== "Admin") {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized"
+      });
+    }
+
     const deletedSupplier = await Supplier.findByIdAndDelete(req.params.id);
 
     if (!deletedSupplier) {
