@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import instance from "../../api/axios";
+import supplierApi from "../../api/supplierApi";
 
 const Suppliers = () => {
   const [formData, setFormData] = useState({
@@ -17,8 +18,8 @@ const Suppliers = () => {
 
   const fetchSuppliers = async () => {
     try {
-      const res = await getAllSuppliers();
-      setSuppliers(res.suppliers || res);
+      const res = await supplierApi.getAllSuppliers();
+      setSuppliers(res.data);
     } catch (error) {
       console.log("Error fetching suppliers:", error);
     }
@@ -28,7 +29,7 @@ const Suppliers = () => {
     e.preventDefault();
 
     try {
-      await addSupplier(formData);
+      await supplierApi.addSupplier(formData);
 
       alert("Supplier added successfully!");
 
@@ -46,25 +47,6 @@ const Suppliers = () => {
     }
   };
 
-  const addSupplier = async (supplierData) => {
-  try {
-    const res = await instance.post("/suppliers/add", supplierData);
-    return res.data;
-  } catch (error) {
-    console.log("Add Supplier Error:", error.response?.data || error.message);
-    throw error.response?.data || error.message;
-  }
-};
-
-const getAllSuppliers = async () => {
-  try {
-    const res = await instance.get("/suppliers/");
-    return res.data;
-  } catch (error) {
-    console.log("Fetch Supplier Error:", error.response?.data || error.message);
-    throw error.response?.data || error.message;
-  }
-};
 
   useEffect(() => {
     fetchSuppliers();
@@ -76,7 +58,9 @@ const getAllSuppliers = async () => {
     border: "1px solid #ccc",
     borderRadius: "6px",
     fontSize: "14px",
-    outline: "none"
+    outline: "none",
+    color: "#333",
+    background: "#f9f9f9"
   };
 
   return (

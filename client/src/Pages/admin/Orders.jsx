@@ -29,7 +29,7 @@ function Orders() {
 
           <tbody>
             {orders.map((o) => (
-              <tr key={o.id}>
+              <tr key={o._id}>
                 <td>{o.product}</td>
                 <td>{o.quantity}</td>
                 <td>{o.price}</td>

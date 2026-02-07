@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-// import { addProduct, getAllProducts } from "./../../api/productApi"; // adjust path
 import productApi from "../../api/productApi";
+import supplierApi from "../../api/supplierApi";
 
 const Products = () => {
+
+  const [suppliers, setSuppliers] = useState([]);
 
   // common input style
   const inputStyle = {
@@ -12,7 +14,8 @@ const Products = () => {
     borderRadius: "6px",
     outline: "none",
     fontSize: "14px",
-    // background: "#f9f9f9"
+    background: "#f9f9f9",
+    color: "#333"
     };
 
   const [expandedId, setExpandedId] = useState(null);
@@ -49,6 +52,21 @@ const Products = () => {
       console.log("Error loading products:", error);
     }
   };
+
+  // get suppliers for backend
+   useEffect(() => {
+    const fetchSuppliers = async () => {
+      try {
+        const res = await supplierApi.getAllSuppliers();
+        setSuppliers(res.data); 
+      } catch (error) {
+        console.log("Failed to fetch suppliers:", error);
+      }
+    };
+
+    fetchSuppliers();
+  }, []);
+
 
   // submit form
   const handleSubmit = async (e) => {
@@ -89,16 +107,16 @@ const Products = () => {
   }, []);
 
   return (
-    <div style={{ padding: "30px", maxWidth: "600px", margin: "auto" }}>
-      <h2 style={{ textAlign: "center", marginBottom: "20px" }}>
+    <div style={{ padding: "0px", maxWidth: "600px", margin: "auto" }}>
+      <h4 style={{ textAlign: "left", marginBottom: "20px" }}>
         Add Product
-      </h2>
+      </h4>
 
       <form
         onSubmit={handleSubmit}
         style={{
           background: "#fff",
-          padding: "20px",
+          padding: "20px 40px",
           borderRadius: "10px",
           boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
           marginBottom: "30px"
@@ -182,7 +200,7 @@ const Products = () => {
 
         <br /><br />
 
-        <label style={{ fontWeight: "600" }}>Supplier ID (Optional)</label>
+        {/* <label style={{ fontWeight: "600" }}>Supplier ID</label>
         <input
           type="text"
           name="supplierId"
@@ -190,7 +208,23 @@ const Products = () => {
           value={formData.supplierId}
           onChange={handleChange}
           style={inputStyle}
-        />
+          required
+        /> */}
+
+        <select
+          name="supplierId"
+          value={formData.supplierId}
+          onChange={handleChange}
+          style={inputStyle}
+          required
+        >
+          <option value="">Select Supplier</option>
+          {suppliers.map((supplier) => (
+            <option key={supplier._id} value={supplier._id}>
+              {supplier.name}
+            </option>
+          ))}
+        </select>
 
         <br /><br />
 
@@ -212,9 +246,9 @@ const Products = () => {
         </button>
       </form>
 
-    <h2 style={{ textAlign: "center", marginBottom: "15px" }}>
+    <h4 style={{ textAlign: "left", marginBottom: "15px" }}>
       Product List
-    </h2>
+    </h4>
 
     <div
       style={{

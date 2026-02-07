@@ -5,7 +5,16 @@ import Product from "../models/Product.js";
  * @route  POST /api/products/add
  */
 export const addProduct = async (req, res) => {
+
   try {
+
+     if (!req.isAuth && req.userRole !== "Admin") {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized"
+      });
+    }
+
     const {
       name,
       category,
@@ -58,6 +67,7 @@ export const addProduct = async (req, res) => {
 export const getAllProducts = async (req, res) => {
   // console.log("Fetching all products...");
   try {
+
     const products = await Product.find().populate("supplierId");
     // console.log("Total products fetched:", products.length);
 
@@ -136,6 +146,14 @@ export const getProductById = async (req, res) => {
  */
 export const deleteProduct = async (req, res) => {
   try {
+
+     if (!req.isAuth && req.userRole !== "Admin") {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized"
+      });
+    }
+
     const deletedProduct = await Product.findByIdAndDelete(req.params.id);
 
     if (!deletedProduct) {
