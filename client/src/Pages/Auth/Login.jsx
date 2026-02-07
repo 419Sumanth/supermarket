@@ -49,7 +49,7 @@ function Login() {
 
 
   return (
-    <div className="container mt-5" style={{ maxWidth: "400px" }}>
+      <div className="container mt-5" style={{ maxWidth: "400px" }}>
       <h3 className="mb-3">Login</h3>
 
       <form onSubmit={handleLogin}>
@@ -71,9 +71,22 @@ function Login() {
           required
         />
 
-        <button className="btn btn-primary w-100">Login</button>
+        <button className="btn btn-primary w-100 mb-2">Login</button>
+
+        <p className="text-center text-muted mb-2">
+          Kindly register if you don’t have an account
+        </p>
+
+        <button
+          type="button"
+          className="btn btn-outline-secondary w-100"
+          onClick={() => navigate("/register")}
+        >
+          Register
+        </button>
       </form>
     </div>
+
   );
 }
 

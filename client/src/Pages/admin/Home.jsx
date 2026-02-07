@@ -39,8 +39,6 @@ function Home() {
   };
 
 
-
-
   useEffect(() => {
     const fetchCount = async () => {
       try {

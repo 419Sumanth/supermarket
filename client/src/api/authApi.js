@@ -1,4 +1,5 @@
 import axios from "./axios";
+import instance from "./axios";
 
 const authApi = {
   login(data) {
@@ -8,6 +9,10 @@ const authApi = {
   register(data) {
     return axios.post("/auth/register", data);
   },
+
+  getProfile(){
+    return instance.get("/auth/profile");
+  }
 };
 
 export default authApi;

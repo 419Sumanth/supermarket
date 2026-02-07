@@ -51,6 +51,7 @@ function AppRoutes() {
           <Route path="orders" element={<UserOrders />} />
           <Route path="profile" element={<UserProfile />} />
           <Route path="cart" element={<UserCart />} />
+          <Route path="register" element={<Register />} />
         </Route>
       </Route>
 

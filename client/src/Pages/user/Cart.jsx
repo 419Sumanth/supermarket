@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+// import purchasesApi from "../../api/purchasesApi";
+import instance from "../../api/axios";
 
 function Cart() {
   const navigate = useNavigate();
@@ -13,41 +15,54 @@ function Cart() {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
+  // Calculate total amount and quantity
+  const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity,0);
+  const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
+
   const removeItem = (id) => {
-    setCart(cart.filter((item) => item.id !== id));
+    setCart(cart.filter((item) => item._id !== id));
   };
 
-  const placeOrder = () => {
+  const placeOrder = async () => {
     if (cart.length === 0) return;
 
-    const existingOrders =
-      JSON.parse(localStorage.getItem("userOrders")) || [];
+    const existingOrders = JSON.parse(localStorage.getItem("userOrders")) || [];
 
-    const newOrders = cart.map((item) => ({
-      id: Date.now() + Math.random(),
-      product: item.name,
-      quantity: item.quantity,
-      price: item.price,
-      date: new Date().toLocaleDateString(),
-    }));
+    try{
+      const formattedItems = cart.map((item) => ({
+        productId: item._id,
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price
+      }));
 
-    localStorage.setItem(
-      "userOrders",
-      JSON.stringify([...existingOrders, ...newOrders])
-    );
+      const purchase = {
+        numberOfItems: totalQuantity,
+        items: formattedItems,
+        purchasePrice: totalAmount,
+        paymentstatus: true // or false depending on your logic
+      };
 
-    // Clear cart
-    localStorage.removeItem("cart");
-    setCart([]);
+      // const response = await purchasesApi.addPurchase(purchase);
+      const response = await instance.post("/purchases/add", purchase);
+      // console.log("Purchase Data to Send:", purchase);
 
-    alert("Order placed successfully!");
-    navigate("/user/orders");
+      localStorage.setItem("userOrders",JSON.stringify([...existingOrders, purchase]));
+
+      // Clear cart
+      localStorage.removeItem("cart");
+      setCart([]);
+
+      alert("Order placed successfully!");
+      navigate("/user/orders");
+    
+    }catch(error){
+       alert("Failed to place order. Please try again.");
+       navigate("/user/cart");
+       console.log("Add Purchase Error:", error.response?.data || error.message);
+       throw error.response?.data || error.message;
+    }
   };
-
-  const totalAmount = cart.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
 
   return (
     <>
@@ -78,7 +93,7 @@ function Cart() {
                   <td>
                     <button
                       className="btn btn-danger btn-sm"
-                      onClick={() => removeItem(item.id)}
+                      onClick={() => removeItem(item._id)}
                     >
                       Remove
                     </button>

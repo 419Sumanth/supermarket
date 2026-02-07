@@ -1,42 +1,29 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
-import instance from "../../api/axios";
+import productApi from "../../api/productApi"
 
 function Products(props) {
 
   const [products, setProducts] = useState([]);
 
-  const getAllProducts = async () => {
-    try {
-      const res = await instance.get("/products/");
-      return res.data; // array of product objects
-    } catch (error) {
-      console.log("Error fetching products:", error.response?.data || error.message);
-      throw error.response?.data || error.message;
-    }
-  };
-
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const data = await getAllProducts();
-        setProducts(data.products);
-          // console.log("Products fetched successfully:", data.products);
+        const data = await productApi.getAllProducts();
+        setProducts(data.data.products);
       } catch (error) {
         console.log("Failed to fetch products:", error);
       }
     };
-
     fetchProducts();
   }, []);
 
   if (props.restrict) {
-    products.splice(6); // Show only first 3 products
+    products.splice(6); // Show only first 6 products
   }
 
   const addToCart = (product) => {
     const existing = JSON.parse(localStorage.getItem("cart")) || [];
-    const found = existing.find((p) => p.id === product.id);
+    const found = existing.find((p) => p._id === product._id);
 
     if (found) {
       found.quantity += 1;
@@ -47,8 +34,6 @@ function Products(props) {
     localStorage.setItem("cart", JSON.stringify(existing));
     alert("Added to cart");
   };
-
-  // console.log("Restrict prop:", props.restrict);
 
   return (
     <>

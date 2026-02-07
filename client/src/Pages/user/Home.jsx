@@ -4,13 +4,6 @@ import Products from "./Products";
 function Home() {
   const navigate = useNavigate();
 
-  // Temporary product data (same idea as Products page)
-  const products = [
-    { id: 1, name: "Rice", price: 60 },
-    { id: 2, name: "Sugar", price: 45 },
-    { id: 3, name: "Wheat", price: 50 },
-  ];
-
   return (
     <>
       <h4>User Dashboard</h4>
@@ -50,26 +43,6 @@ function Home() {
       <div>
         <Products restrict={true}/>
       </div>
-
-      {/* <div className="row mt-2">
-        {products.map((p) => (
-          <div className="col-md-4 mb-3" key={p.id}>
-            <div className="card h-100 shadow-sm">
-              <div className="card-body">
-                <h6>{p.name}</h6>
-                <p>₹{p.price}</p>
-
-                <button
-                  className="btn btn-sm btn-outline-primary"
-                  onClick={() => navigate("/user/products")}
-                >
-                  View
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div> */}
     </>
   );
 }
