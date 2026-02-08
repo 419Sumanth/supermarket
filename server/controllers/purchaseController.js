@@ -82,6 +82,14 @@ export const addPurchase = async (req, res) => {
  */
 export const getAllPurchases = async (req, res) => {
   try {
+
+     if (!req.isAuth && req.userRole !== "Admin") {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized"
+      });
+    }
+
     const purchases = await Purchase.find().populate("userId");
 
     res.status(200).json({
@@ -188,6 +196,14 @@ export const getPurchasesCount = async (req, res) => {
  */
 export const deletePurchase = async (req, res) => {
   try {
+
+     if (!req.isAuth && req.userRole !== "Admin") {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized"
+      });
+    }
+
     const deletedPurchase = await Purchase.findByIdAndDelete(req.params.id);
 
     if (!deletedPurchase) {

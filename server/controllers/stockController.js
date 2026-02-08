@@ -89,6 +89,38 @@ export const deleteStockAlert = async (req, res) => {
   }
 };
 
+export const getLowStockItems = async (req, res) => {
+   try {
+
+     if (!req.isAuth && req.userRole !== "Admin") {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized"
+      });
+    }
+
+    const products = await Product.find()
+      .populate("supplierId", "name address")
+      .select("name price quantity lowStock supplierId");
+
+    const lowStockItems = products.filter(
+      (product) => product.quantity < product.lowStock
+    );
+
+    res.status(200).json({
+      success: true,
+      count: lowStockItems.length,
+      data: lowStockItems
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch low stock items",
+      error: error.message
+    });
+  }
+}
+
 export const getLowStockCount = async (req, res) => {
   try {
 

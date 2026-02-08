@@ -1,55 +1,70 @@
 import { useEffect, useState } from "react";
+import stockApi from "../../api/StockApi";
 
 function StockAlerts() {
   const [lowStockItems, setLowStockItems] = useState([]);
 
   useEffect(() => {
-    const products = JSON.parse(localStorage.getItem("products")) || [];
+    const fetchLowStock = async () => {
+      try {
+        const res = await stockApi.getLowStockItems();
+        setLowStockItems(res.data.data);
+      } catch (error) {
+        console.log("Error:", error);
+      }
+    };
 
-    // Threshold can be adjusted later or made configurable
-    const LOW_STOCK_LIMIT = 10;
-
-    const filtered = products.filter(
-      (p) => p.stock <= LOW_STOCK_LIMIT
-    );
-
-    setLowStockItems(filtered);
+    fetchLowStock();
   }, []);
 
   return (
-    <>
-      <h4>Low Stock Alerts</h4>
-
+    <div style={{ padding: "0px" }}>
+      <h4 style={{ textAlign: "left", marginBottom: "5px" }}>
+        Low Stock Items
+      </h4>
       {lowStockItems.length === 0 ? (
-        <p className="text-success">
-          All products have sufficient stock.
+        <p style={{ textAlign: "center", color: "gray" }}>
+          No low stock items found
         </p>
       ) : (
-        <table className="table table-bordered mt-3">
-          <thead className="table-dark">
+        <table
+          style={{
+            width: "100%",
+            // borderCollapse: "collapse",
+            background: "white",
+            boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
+            // border: "1px solid #ddd",
+          }}
+        >
+          <thead style={{ background: "#3f1717", color: "white" }}>
             <tr>
-              <th>Product</th>
-              <th>Current Stock</th>
-              <th>Status</th>
+              <th style={{ padding: "12px", textAlign: "left", border: "1px solid #131212" }}>Item Name</th>
+              <th style={{ padding: "12px", textAlign: "left", border: "1px solid #131212" }}>Price</th>
+              <th style={{ padding: "12px", textAlign: "left", border: "1px solid #131212" }}>Supplier details</th>
+              <th style={{ padding: "12px", textAlign: "left", border: "1px solid #131212" }}>Quantity Left</th>
             </tr>
           </thead>
 
           <tbody>
             {lowStockItems.map((item) => (
-              <tr key={item.id}>
-                <td>{item.name}</td>
-                <td>{item.stock}</td>
-                <td>
-                  <span className="badge bg-danger">
-                    Low Stock
-                  </span>
+              <tr key={item._id} style={{ borderBottom: "1px solid #ddd" }}>
+                <td style={{ padding: "12px", border: "1px solid #121111" }}>{item.name}</td>
+
+                <td style={{ padding: "12px", border: "1px solid #121111" }}>₹{item.price}</td>
+
+                <td style={{ padding: "12px", border: "1px solid #121111" }}>
+                  {item.supplierId ? `${item.supplierId.name}, ${item.supplierId.address}` : "No Supplier"}
+                </td>
+
+                <td style={{ padding: "12px", fontWeight: "bold", color: "red", border: "1px solid #121111" }}>
+                  {item.quantity}
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       )}
-    </>
+    </div>
   );
 }
 
