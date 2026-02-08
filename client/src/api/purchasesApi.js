@@ -8,6 +8,10 @@ const purchasesApi = {
   addPurchase(data) {
     return instance.post("/purchases/add", data);
   },
+
+  getAllPurchases(){
+    return instance.get("/purchases/");
+  }
 };
 
 export default purchasesApi;

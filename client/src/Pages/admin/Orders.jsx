@@ -1,14 +1,23 @@
 import { useState, useEffect } from "react";
+import purchasesApi from "../../api/purchasesApi";
 
 function Orders() {
   const [orders, setOrders] = useState([]);
 
-  useEffect(() => {
-    const savedOrders = localStorage.getItem("userOrders");
-    if (savedOrders) {
-      setOrders(JSON.parse(savedOrders));
-    }
+   useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const res = await purchasesApi.getAllPurchases();
+        // console.log("Fetched orders:", res.data.data);
+        setOrders(res.data.data);
+      } catch (error) {
+        console.log("Failed to fetch orders:", error.response?.data || error.message);
+      }
+    };
+
+    fetchOrders();
   }, []);
+
 
   return (
     <>
@@ -20,20 +29,33 @@ function Orders() {
         <table className="table table-bordered">
           <thead className="table-dark">
             <tr>
-              <th>Product</th>
-              <th>Qty</th>
+              <th>Date of Order</th>
               <th>Price (₹)</th>
-              <th>Date</th>
+              <th>Number of Items</th>
+              <th>Products</th>
             </tr>
           </thead>
 
           <tbody>
             {orders.map((o) => (
               <tr key={o._id}>
-                <td>{o.product}</td>
-                <td>{o.quantity}</td>
-                <td>{o.price}</td>
-                <td>{o.date}</td>
+                <td>{new Date(o.purchaseDate).toLocaleDateString()}</td>
+                <td>{o.purchasePrice}</td>
+                <td>{o.numberOfItems}</td>
+                <td
+                  style={{
+                    paddingLeft: "20px",
+
+                    // maxHeight: "150px",
+                    // overflowY: "auto"
+                  }}  
+                >
+                 {o.items.map((product, i) => (
+                        <li key={i}>
+                          {product.name} (₹{product.price} × {product.quantity})
+                        </li>
+                      ))}
+                </td>
               </tr>
             ))}
           </tbody>
