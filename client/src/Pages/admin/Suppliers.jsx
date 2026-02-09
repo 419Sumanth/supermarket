@@ -175,7 +175,7 @@ const Suppliers = () => {
       <div
         style={{
           width: "60%",
-          padding: "10px",
+          padding: "0px",
           // border: "1px solid #e5e7eb",
           margin: "0"
         }}
