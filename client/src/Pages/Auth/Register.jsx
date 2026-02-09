@@ -44,17 +44,17 @@ function Register() {
   return (
 
     <div 
-    className="min-h-screen flex items-center justify-center bg-gray-100 p-[50px]"
-    
+       className="container"
+      style={{ maxWidth: "30%", height:"800px", display :"flex", flexDirection : "column", alignItems : "center",justifyContent : "center", gap:"30px" }}
     >
 
         <h2 className="text-xl font-bold mb-2">Register</h2>
 
   <form
     onSubmit={handleRegister}
-    className="bg-white p-6 rounded shadow w-96"
+    className="bg-white p-6"
     autoComplete="off"
-    style={{ display: "flex", flexDirection: "column", gap: "12px", padding: "20px" }}
+    style={{ display: "flex", flexDirection: "column", gap: "12px", padding: "0px", width:"300px" }}
   >
   
     <input
@@ -103,7 +103,11 @@ function Register() {
     <p className="text-sm text-center">
       Already have an account?{" "}
       <span
-        className="text-blue-600 cursor-pointer"
+        className="text-blue-600"
+        style={{
+          cursor:"pointer",
+          color:"blue"
+        }}
         onClick={() => navigate("/")}
       >
         Login
