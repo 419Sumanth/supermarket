@@ -1,8 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { FaLock, FaSignOutAlt, FaEnvelope, FaPhoneAlt,FaBirthdayCake, FaShoppingCart } from "react-icons/fa";
 import authApi from "../../api/authApi";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
+
+  const logout = () => {
+    localStorage.removeItem("role");
+    navigate("/");
+  };
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -17,70 +25,126 @@ const Profile = () => {
     fetchProfile();
   }, []);
 
+  const ProfileItem = ({ icon, text }) => {
   return (
-
-    
-  
     <div
-  // style={{
-  //   maxWidth: "600px",
-  //   margin: "30px auto",
-  //   padding: "30px 50px",
-  //   background: "#fff",
-  //   border: "1px solid #e5e7eb",
-  //   borderRadius: "12px",
-  //   boxShadow: "0px 4px 12px rgba(0,0,0,0.1)"
-  // }}
->
-   <h2 style={{ textAlign: "left", marginBottom: "20px", color: "#0c0d0e" }}>
-    User Profile
-  </h2>
- 
-
-  {user ? (
-    <table
       style={{
-        width: "100%",
-        borderCollapse: "collapse",
-        borderRadius: "10px",
-        overflow: "hidden",
-        padding: "20px",
-        // border: "1px solid #e5e7eb",
-            boxShadow: "0px 4px 12px rgba(0,0,0,0.1)",
-        // background: "#fff"
-        // borderRadius: "10px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        cursor: "pointer"
       }}
     >
-      <tbody>
-        <tr style={{ background: "#ffffff" }}>
-          <td style={{ padding: "20px", fontWeight: "600", width: "40%" }}>
-            Name
-          </td>
-          <td style={{ padding: "20px" }}>{user.Name}</td>
-        </tr>
+      <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+        <span style={{ fontSize: "18px" }}>{icon}</span>
+        <span style={{ fontSize: "15px", fontWeight: "500" }}>{text}</span>
+      </div>
+    </div>
+  );
+};
 
-        <tr>
-          <td style={{ padding: "20px", fontWeight: "600" }}>Email</td>
-          <td style={{ padding: "20px" }}>{user.Email}</td>
-        </tr>
+  return (
+    <div>
+      <h4 style={{ textAlign: "left", marginBottom: "20px", color: "#0c0d0e" }}>
+        User Profile
+      </h4>
 
-        <tr style={{ background: "#ffffff" }}>
-          <td style={{ padding: "20px", fontWeight: "600" }}>Mobile</td>
-          <td style={{ padding: "20px" }}>{user.Mobile}</td>
-        </tr>
+      {user ? (
+        <div
+            style={{
 
-        <tr>
-          <td style={{ padding: "20px", fontWeight: "600" }}>DOB</td>
-          <td style={{ padding: "20px" }}>{user.DOB}</td>
-        </tr>
-      </tbody>
-    </table>
-  ) : (
-    <p style={{ textAlign: "center", color: "gray" }}>Loading profile...</p>
-  )}
-</div>
-     
+              display: "flex",
+              justifyContent: "center",
+              marginLeft:"50px"
+            }}
+          >
+            <div
+              style={{
+                width: "400px",
+                background: "#f3f4f6",
+                borderRadius: "30px",
+                padding: "25px",
+              }}
+            >
 
+              {/* Avatar */}
+              <div style={{ textAlign: "center", marginBottom: "25px" }}>
+                <div
+                  style={{
+                    width: "90px",
+                    height: "90px",
+                    borderRadius: "50%",
+                    background: "#e5e7eb",
+                    margin: "0 auto",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "30px",
+                    fontWeight: "700",
+                    color: "#111827"
+                  }}
+                >
+                  {user?.Name?.charAt(0)}
+                </div>
+
+                <h3 style={{ margin: "12px 0 4px", fontSize: "18px" }}>
+                  {user?.Name}
+                </h3>
+
+                <p style={{ margin: 0, color: "gray", fontSize: "14px" }}>
+                  @{user?.Email?.split("@")[0]}
+                </p>
+
+                <button
+                  style={{
+                    marginTop: "15px",
+                    padding: "10px 25px",
+                    background: "black",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "12px",
+                    cursor: "pointer",
+                    fontWeight: "600"
+                  }}
+                > 
+                  Edit Profile
+                </button>
+             </div>
+             <hr style={{ border: "0.5px solid #e5e7eb", marginBottom: "15px" }} />
+
+              {/* Menu Items */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "15px", }}>
+                <ProfileItem icon={<FaEnvelope />} text={user.Email} />
+                <ProfileItem icon={<FaPhoneAlt />} text= {user.Mobile} />
+                <ProfileItem icon={<FaBirthdayCake />} text= {user.DOB} />
+                <ProfileItem icon={<FaLock />} text="Change Password" />
+
+                <hr style={{ border: "0.5px solid #e5e7eb" }} />
+
+                 <a href="/user/orders" style={{fontSize:"16px", color:"black", textDecoration:"none"}}><FaShoppingCart/> <p style={{marginLeft:"10px", display:"inline"}}> Go to my Orders</p></a>
+                 <button 
+                    className="btn btn-outline-light" 
+                    onClick={logout}
+                    style={{
+                      marginTop: "15px",
+                      padding: "10px 25px",
+                      background: "black",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "12px",
+                      cursor: "pointer",
+                      fontWeight: "600"
+                    }}
+                 >
+                    <FaSignOutAlt/> Logout
+                  </button>
+              </div>
+            </div>
+        </div>
+      ) : (
+        <p style={{ textAlign: "center", color: "gray" }}>Loading profile...</p>
+      )}
+    </div>
   );
 };
 

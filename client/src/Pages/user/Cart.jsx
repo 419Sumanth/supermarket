@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// import purchasesApi from "../../api/purchasesApi";
+import purchasesApi from "../../api/purchasesApi";
 import instance from "../../api/axios";
 
 function Cart() {
@@ -43,10 +43,7 @@ function Cart() {
         paymentstatus: true // or false depending on your logic
       };
 
-      // const response = await purchasesApi.addPurchase(purchase);
-      const response = await instance.post("/purchases/add", purchase);
-      // console.log("Purchase Data to Send:", purchase);
-
+      const response = await purchasesApi.addPurchase(purchase);
       localStorage.setItem("userOrders",JSON.stringify([...existingOrders, purchase]));
 
       // Clear cart
@@ -72,14 +69,21 @@ function Cart() {
         <p>Your cart is empty</p>
       ) : (
         <>
-          <table className="table table-bordered">
+          <table 
+            className="table "
+            style={{
+              borderRadius:"10px",
+              width:"40%",
+              margin:"50px 0"
+            }}  
+          >
             <thead className="table-dark">
               <tr>
                 <th>Product</th>
                 <th>Qty</th>
                 <th>Price (₹)</th>
-                <th>Total (₹)</th>
-                <th>Action</th>
+                <th >Total (₹)</th>
+                <th style={{width:"80px"}}></th>
               </tr>
             </thead>
 
@@ -103,10 +107,15 @@ function Cart() {
             </tbody>
           </table>
 
-          <h5>Total: ₹{totalAmount}</h5>
+          <h5 >
+            Order Total: 
+            <p style={{fontWeight:"600", display:"inline", marginLeft:"10px"}}>
+              ₹{totalAmount}
+            </p>
+          </h5>
 
           <button
-            className="btn btn-success mt-2"
+            className="btn btn-success mt-5"
             onClick={placeOrder}
           >
             Place Order

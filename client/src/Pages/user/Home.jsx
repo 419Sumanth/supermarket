@@ -13,12 +13,12 @@ function Home() {
         <div className="col-md-6">
           <div
             className="card p-3 shadow-sm cursor-pointer"
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", background:"#BFC9D1", fontWeight:"600" }}
             onClick={() => navigate("/user/products")}
           >
-            <h6>Browse Products</h6>
+            <h5>Browse Products</h5>
             <p className="text-muted mb-0">
-              View available items
+              Click here to view available items
             </p>
           </div>
         </div>
@@ -26,19 +26,19 @@ function Home() {
         <div className="col-md-6">
           <div
             className="card p-3 shadow-sm"
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", background:"#BFC9D1", fontWeight:"600" }}
             onClick={() => navigate("/user/orders")}
           >
-            <h6>My Orders</h6>
+            <h5>My Orders</h5>
             <p className="text-muted mb-0">
-              View your order history
+               Click here to view your order history
             </p>
           </div>
         </div>
       </div>
 
       {/* Featured Products */}
-      <h5 className="mt-4">Featured Products</h5>
+      <h4 className="mt-4">Featured Products</h4>
 
       <div>
         <Products restrict={true}/>
