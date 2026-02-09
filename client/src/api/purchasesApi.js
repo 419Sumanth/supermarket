@@ -11,7 +11,11 @@ const purchasesApi = {
 
   getAllPurchases(){
     return instance.get("/purchases/");
-  }
+  },
+
+  getTotalPurchaseCount(){
+    return instance.get("/purchases/count");
+  },
 };
 
 export default purchasesApi;

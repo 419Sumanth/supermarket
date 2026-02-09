@@ -8,6 +8,9 @@ const productApi = {
     addProduct(productData){
       return instance.post("/products/add", productData);
     },
+    getTotalProductCount(){
+      return instance.get("/products/count");
+    }
 };
 
 export default productApi;  

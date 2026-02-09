@@ -14,9 +14,9 @@ function AdminSidebar() {
   return (
     <div
       className="bg-light border-end"
-      style={{ width: "220px", minHeight: "100vh" }}
+      style={{ width: "12%", minHeight: "93.4vh",fontSize:"16px" }}
     >
-      <ul className="nav flex-column p-3 gap-1">
+      <ul className="nav flex-column p-3 gap-2">
         <NavLink to="/admin" end style={linkStyle}>
           Dashboard
         </NavLink>

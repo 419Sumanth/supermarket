@@ -10,6 +10,7 @@ const Products = () => {
   const inputStyle = {
     width: "100%",
     padding: "10px",
+    marginTop : "5px",
     border: "1px solid #ccc",
     borderRadius: "6px",
     outline: "none",
@@ -107,220 +108,252 @@ const Products = () => {
   }, []);
 
   return (
-    <div style={{ padding: "0px", maxWidth: "600px", margin: "auto" }}>
-      <h4 style={{ textAlign: "left", marginBottom: "20px" }}>
-        Add Product
-      </h4>
+    <div 
+      style={{ padding: "0px", 
+               width: "100%",
+               height:"100%",
+               display:"flex",
+               justifyContent:"space-between",
+              //  border: "1px solid"
+              }}
+    >
 
-      <form
-        onSubmit={handleSubmit}
+      {/* for adding product form */}
+      <div
         style={{
-          background: "#fff",
-          padding: "20px 40px",
-          borderRadius: "10px",
-          boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
-          marginBottom: "30px"
+          width:"40%",
+        }}    
+      >
+        <h4 style={{ textAlign: "left", marginBottom: "20px" }}>
+          Add Product
+        </h4>
+
+        <form
+          onSubmit={handleSubmit}
+          style={{
+            // background: "#fff",
+            // padding: "20px 40px",
+            // borderRadius: "10px",
+            // boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
+            // marginBottom: "30px",
+            //  background: "white",
+            // padding: "20px",
+            borderRadius: "10px",
+            margin:"50px 0",
+            marginLeft:"30px",
+            // boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
+            width: "80%",
+            height: "60%",
+            display: "flex",
+            flexDirection: "column",
+            gap: "25px"
+          }}
+        >
+          <div>
+            <label style={{ fontWeight: "600" }}>Product Name</label>
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter product name"
+              value={formData.name}
+              onChange={handleChange}
+              style={inputStyle}
+              required
+            />
+          </div>
+          <div>
+             <label style={{ fontWeight: "600" }}>Category</label>
+            <input
+              type="text"
+              name="category"
+              placeholder="Enter category"
+              value={formData.category}
+              onChange={handleChange}
+              style={inputStyle}
+              required
+            />
+          </div>
+          <div>
+             <label style={{ fontWeight: "600" }}>Size</label>
+            <input
+              type="text"
+              name="size"
+              placeholder="Example: 500g / 1L"
+              value={formData.size}
+              onChange={handleChange}
+              style={inputStyle}
+              required
+            />
+          </div>
+          <div>
+             <label style={{ fontWeight: "600" }}>Price</label>
+            <input
+              type="number"
+              name="price"
+              placeholder="Enter price"
+              value={formData.price}
+              onChange={handleChange}
+              style={inputStyle}
+              required
+            />
+          </div>
+          <div>
+            <label style={{ fontWeight: "600" }}>Quantity</label>
+            <input
+              type="number"
+              name="quantity"
+              placeholder="Enter quantity"
+              value={formData.quantity}
+              onChange={handleChange}
+              style={inputStyle}
+              required
+            />
+          </div>
+          <div>
+             <label style={{ fontWeight: "600" }}>Low Stock Limit</label>
+            <input
+              type="number"
+              name="lowStock"
+              placeholder="Enter low stock limit"
+              value={formData.lowStock}
+              onChange={handleChange}
+              style={inputStyle}
+              required
+            />
+          </div>
+          <div>
+             <select
+            name="supplierId"
+            value={formData.supplierId}
+            onChange={handleChange}
+            style={inputStyle}
+            required
+          >
+            <option value="">Select Supplier</option>
+            {suppliers.map((supplier) => (
+              <option key={supplier._id} value={supplier._id}>
+                {supplier.name}
+              </option>
+            ))}
+          </select>
+          </div>
+
+          <button
+            type="submit"
+            style={{
+              width: "100%",
+              padding: "12px",
+              marginTop :"30px",
+              background: "#2563eb",
+              color: "white",
+              border: "none",
+              borderRadius: "6px",
+              fontSize: "16px",
+              fontWeight: "600",
+              cursor: "pointer"
+            }}
+          >
+            Add Product
+          </button>
+        </form>
+      </div>
+      
+      {/* Scrollable container - For displaying the products */}
+      <div
+         style={{
+          width: "60%",
+          padding: "10px",
+          // border: "1px solid #e5e7eb",
+          margin: "0"
         }}
       >
-        <label style={{ fontWeight: "600" }}>Product Name</label>
-        <input
-          type="text"
-          name="name"
-          placeholder="Enter product name"
-          value={formData.name}
-          onChange={handleChange}
-          style={inputStyle}
-          required
-        />
+        <h4 style={{ textAlign: "left", marginBottom: "15px" }}>
+          Products in Inventory
+        </h4>
 
-        <br /><br />
-
-        <label style={{ fontWeight: "600" }}>Category</label>
-        <input
-          type="text"
-          name="category"
-          placeholder="Enter category"
-          value={formData.category}
-          onChange={handleChange}
-          style={inputStyle}
-          required
-        />
-
-        <br /><br />
-
-        <label style={{ fontWeight: "600" }}>Size</label>
-        <input
-          type="text"
-          name="size"
-          placeholder="Example: 500g / 1L"
-          value={formData.size}
-          onChange={handleChange}
-          style={inputStyle}
-          required
-        />
-
-        <br /><br />
-
-        <label style={{ fontWeight: "600" }}>Price</label>
-        <input
-          type="number"
-          name="price"
-          placeholder="Enter price"
-          value={formData.price}
-          onChange={handleChange}
-          style={inputStyle}
-          required
-        />
-
-        <br /><br />
-
-        <label style={{ fontWeight: "600" }}>Quantity</label>
-        <input
-          type="number"
-          name="quantity"
-          placeholder="Enter quantity"
-          value={formData.quantity}
-          onChange={handleChange}
-          style={inputStyle}
-          required
-        />
-
-        <br /><br />
-
-        <label style={{ fontWeight: "600" }}>Low Stock Limit</label>
-        <input
-          type="number"
-          name="lowStock"
-          placeholder="Enter low stock limit"
-          value={formData.lowStock}
-          onChange={handleChange}
-          style={inputStyle}
-          required
-        />
-
-        <br /><br />
-
-        {/* <label style={{ fontWeight: "600" }}>Supplier ID</label>
-        <input
-          type="text"
-          name="supplierId"
-          placeholder="Enter supplier id"
-          value={formData.supplierId}
-          onChange={handleChange}
-          style={inputStyle}
-          required
-        /> */}
-
-        <select
-          name="supplierId"
-          value={formData.supplierId}
-          onChange={handleChange}
-          style={inputStyle}
-          required
-        >
-          <option value="">Select Supplier</option>
-          {suppliers.map((supplier) => (
-            <option key={supplier._id} value={supplier._id}>
-              {supplier.name}
-            </option>
-          ))}
-        </select>
-
-        <br /><br />
-
-        <button
-          type="submit"
-          style={{
-            width: "100%",
-            padding: "12px",
-            background: "#2563eb",
-            color: "white",
-            border: "none",
-            borderRadius: "6px",
-            fontSize: "16px",
-            fontWeight: "600",
-            cursor: "pointer"
+        <div         
+           style={{
+            maxHeight: "800px",
+            overflowY: "scroll",
+            padding: "10px",
+            margin: "auto",
+            // borderRadius: "10px",
+            // border: "1px solid #ddd",
+            // background: "#f9fafb"
           }}
         >
-          Add Product
-        </button>
-      </form>
-
-    <h4 style={{ textAlign: "left", marginBottom: "15px" }}>
-      Product List
-    </h4>
-
-    <div
-      style={{
-        height: "350px",
-        overflowY: "scroll",
-        padding: "10px",
-        borderRadius: "10px",
-        border: "1px solid #ddd",
-        background: "#f9fafb"
-      }}
-    >
-      {products.length === 0 ? (
-        <p style={{ textAlign: "center", color: "gray" }}>No products found</p>
-      ) : (
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(2, 1fr)",
-            gap: "15px"
-          }}
-        >
-          {products.map((product) => (
+          {products.length === 0 ? (
+            <p style={{ textAlign: "center", color: "gray" }}>No products found</p>
+          ) : (
             <div
-              key={product._id}
-              onClick={() => toggleExpand(product._id)}
               style={{
-                background: "#fff",
-                padding: "15px",
-                borderRadius: "12px",
-                boxShadow: "0px 2px 8px rgba(0,0,0,0.08)",
-                cursor: "pointer",
-                transition: "0.2s ease"
+                 display: "grid",
+                gridTemplateColumns: "repeat(3, 1fr)",
+                gap: "15px",
+                columnGap: "30px",
+                marginTop: "30px",
+                padding: "0 20px"
               }}
             >
-              <h3 style={{ marginBottom: "8px", fontSize: "16px" }}>
-                {product.name}
-              </h3>
-
-              <p style={{ margin: "4px 0" }}>
-                <b>Category:</b> {product.category}
-              </p>
-
-              <p style={{ margin: "4px 0" }}>
-                <b>Qty:</b> {product.quantity}
-              </p>
-
-              {/* Expandable Section */}
-              {expandedId === product._id && (
-                <div style={{ marginTop: "10px", borderTop: "1px solid #ddd", paddingTop: "10px" }}>
-                  <p style={{ margin: "4px 0" }}>
-                    <b>Size:</b> {product.size}
-                  </p>
+              {products.map((product) => (
+                <div
+                  key={product._id}
+                  onClick={() => toggleExpand(product._id)}
+                  style={{
+                    background: "#fff",
+                    padding: "15px",
+                    borderRadius: "12px",
+                    boxShadow: "0px 2px 8px rgba(0,0,0,0.08)",
+                    cursor: "pointer",
+                    transition: "0.2s ease"
+                  }}
+                >
+                  <h3 style={{ marginBottom: "8px", fontSize: "16px" }}>
+                    {product.name}
+                  </h3>
 
                   <p style={{ margin: "4px 0" }}>
-                    <b>Price:</b> ₹{product.price}
+                    <b>Category:</b> {product.category}
                   </p>
 
                   <p style={{ margin: "4px 0" }}>
-                    <b>Low Stock:</b> {product.lowStock}
+                    <b>Qty:</b> {product.quantity}
                   </p>
 
-                  <p style={{ margin: "4px 0", color: "gray", fontSize: "13px" }}>
-                    Click again to collapse
-                  </p>
+                  {/* Expandable Section */}
+                  {expandedId === product._id && (
+                    <div style={{ marginTop: "10px", borderTop: "1px solid #ddd", paddingTop: "10px" }}>
+                      <p style={{ margin: "4px 0" }}>
+                        <b>Size:</b> {product.size}
+                      </p>
+
+                      <p style={{ margin: "4px 0" }}>
+                        <b>Price:</b> ₹{product.price}
+                      </p>
+
+                      <p style={{ margin: "4px 0" }}>
+                        <b>Low Stock:</b> {product.lowStock}
+                      </p>
+
+                      <p style={{ margin: "4px 0", color: "gray", fontSize: "13px" }}>
+                        Click again to collapse
+                      </p>
+                    </div>
+                  )}
                 </div>
-              )}
+              ))}
             </div>
-          ))}
+          )}
+          <p
+            style={{
+              textAlign:"center",
+              marginTop:"10px"
+            }}
+          >End of List...</p>
         </div>
-      )}
+      </div>
+     
     </div>
-  </div>
   );
 };
 

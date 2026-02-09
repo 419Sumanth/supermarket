@@ -55,6 +55,7 @@ const Suppliers = () => {
   const inputStyle = {
     width: "100%",
     padding: "10px",
+    marginTop: "5px",
     border: "1px solid #ccc",
     borderRadius: "6px",
     fontSize: "14px",
@@ -64,129 +65,170 @@ const Suppliers = () => {
   };
 
   return (
-    <div style={{ maxWidth: "600px", margin: "auto", padding: "30px" }}>
-      <h2 style={{ textAlign: "center", marginBottom: "20px" }}>
-        Add Supplier
-      </h2>
+    <div 
+      style={{ minWidth: "100%", 
+               margin: "0",
+               padding: "0px",
+               display: "flex",
+               justifyContent: "space-between", 
+              //  border: "1px solid #e5e7eb",
+               height: "100%",
+              }}
+    >
+      {/* form section */}
+      <div 
+        style={{ width: "40%", 
+                //  padding: "10px",  
+                //  border: "1px solid #e5e7eb", 
+                 margin: "0" }}
+      >
+        <h4 style={{ textAlign: "left", marginBottom: "20px" }}>
+          Add Supplier
+        </h4>
 
       {/* Form */}
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          background: "white",
-          padding: "20px",
-          borderRadius: "10px",
-          boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
-          marginBottom: "30px"
-        }}
-      >
-        <label style={{ fontWeight: "600" }}>Supplier Name</label>
-        <input
-          type="text"
-          name="name"
-          placeholder="Enter supplier name"
-          value={formData.name}
-          onChange={handleChange}
-          style={inputStyle}
-          required
-        />
-
-        <br /><br />
-
-        <label style={{ fontWeight: "600" }}>Email</label>
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter supplier email"
-          value={formData.email}
-          onChange={handleChange}
-          style={inputStyle}
-          required
-        />
-
-        <br /><br />
-
-        <label style={{ fontWeight: "600" }}>Phone</label>
-        <input
-          type="text"
-          name="phone"
-          placeholder="Enter supplier phone"
-          value={formData.phone}
-          onChange={handleChange}
-          style={inputStyle}
-          required
-        />
-
-        <br /><br />
-
-        <label style={{ fontWeight: "600" }}>Address</label>
-        <textarea
-          name="address"
-          placeholder="Enter supplier address"
-          value={formData.address}
-          onChange={handleChange}
-          style={{ ...inputStyle, height: "80px", resize: "none" }}
-          required
-        />
-
-        <br /><br />
-
-        <button
-          type="submit"
+        <form
+          onSubmit={handleSubmit}
           style={{
-            width: "100%",
-            padding: "12px",
-            background: "#16a34a",
-            color: "white",
-            border: "none",
-            borderRadius: "6px",
-            fontSize: "16px",
-            fontWeight: "600",
-            cursor: "pointer"
+            background: "white",
+            // padding: "20px",
+            borderRadius: "10px",
+            margin:"50px 0",
+            marginLeft:"30px",
+            // boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
+            width: "80%",
+            height: "60%",
+            display: "flex",
+            flexDirection: "column",
+            gap: "35px"
           }}
         >
-          Add Supplier
-        </button>
-      </form>
+          <div>
+            <label style={{ fontWeight: "600" }}>Supplier Name</label>
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter supplier name"
+              value={formData.name}
+              onChange={handleChange}
+              style={inputStyle}
+              required
+            />
+          </div>
+          <div>
+            <label style={{ fontWeight: "600" }}>Email</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter supplier email"
+              value={formData.email}
+              onChange={handleChange}
+              style={inputStyle}
+              required
+            />
+          </div>
+          <div>
+            <label style={{ fontWeight: "600" }}>Phone</label>
+            <input
+              type="text"
+              name="phone"
+              placeholder="Enter supplier phone"
+              value={formData.phone}
+              onChange={handleChange}
+              style={inputStyle}
+              required
+            />
+          </div>
+          <div>
+            <label style={{ fontWeight: "600" }}>Address</label>
+            <textarea
+              name="address"
+              placeholder="Enter supplier address"
+              value={formData.address}
+              onChange={handleChange}
+              style={{ ...inputStyle, height: "80px", resize: "none" }}
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            style={{
+              width: "100%",
+              marginTop: "20px",
+              padding: "12px",
+              background: "#16a34a",
+              color: "white",
+              border: "none",
+              borderRadius: "6px",
+              fontSize: "16px",
+              fontWeight: "600",
+              cursor: "pointer"
+            }}
+          >
+            Add Supplier
+          </button>
+        </form>
+      </div>
 
       {/* Supplier List */}
-      <h2 style={{ textAlign: "center", marginBottom: "15px" }}>
-        Supplier List
-      </h2>
-
       <div
         style={{
-          maxHeight: "300px",
-          overflowY: "scroll",
+          width: "60%",
           padding: "10px",
-          borderRadius: "10px",
-          border: "1px solid #ddd",
-          background: "#f9fafb"
+          // border: "1px solid #e5e7eb",
+          margin: "0"
         }}
       >
-        {suppliers.length === 0 ? (
-          <p style={{ textAlign: "center", color: "gray" }}>
-            No suppliers found
-          </p>
-        ) : (
-          suppliers.map((supplier) => (
+        <h4 style={{ textAlign: "left", marginBottom: "15px" }}>
+          Suppliers Details
+        </h4>
+
+        <div
+          style={{
+            maxHeight: "800px",
+            overflowY: "scroll",
+            padding: "10px",
+            margin: "auto",
+            // borderRadius: "10px",
+            // border: "1px solid #ddd",
+            // background: "#f9fafb"
+          }}
+        > 
+          {suppliers.length === 0 ? (
+            <p style={{ textAlign: "center", color: "gray" }}>
+              No suppliers found
+            </p>
+          ) : (
             <div
-              key={supplier._id}
               style={{
-                background: "white",
-                padding: "15px",
-                borderRadius: "10px",
-                marginBottom: "12px",
-                boxShadow: "0px 2px 6px rgba(0,0,0,0.08)"
+                display: "grid",
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gap: "15px",
+                columnGap: "30px",
+                marginTop: "30px",
+                padding: "0 20px"
               }}
             >
-              <p><b>Name:</b> {supplier.name}</p>
-              <p><b>Email:</b> {supplier.email}</p>
-              <p><b>Phone:</b> {supplier.phone}</p>
-              <p><b>Address:</b> {supplier.address}</p>
-            </div>
-          ))
-        )}
+              {suppliers.map((supplier) => (
+                <div
+                  key={supplier._id}
+                  style={{
+                    background: "white",
+                    padding: "15px",
+                    borderRadius: "10px",
+                    boxShadow: "0px 2px 6px rgba(0,0,0,0.08)"
+                  }}
+                >
+                  <p><b>Name:</b> {supplier.name}</p>
+                  <p><b>Email:</b> {supplier.email}</p>
+                  <p><b>Phone:</b> {supplier.phone}</p>
+                  <p><b>Address:</b> {supplier.address}</p>
+                </div>
+              ))}
+           </div>
+          )}
+        </div>
       </div>
     </div>
   );
