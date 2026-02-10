@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import productApi from "../../api/productApi"
+import { Navigate } from "react-router-dom";
 
 function Products(props) {
 
@@ -10,17 +11,35 @@ function Products(props) {
     p.name.toLowerCase().includes(search.toLowerCase())
   );
 
-  console.log("filtered products : ", filteredProducts)
+  // console.log("filtered products : ", filteredProducts)
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const data = await productApi.getAllProducts();
-        setProducts(data.data.products);
+        const tempProducts = data.data.products;
+        // setProducts(data.data.products);
+
+        const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
+        const updatedProducts = tempProducts.map((product) => {
+            const cartItem = savedCart.find((item) => item._id === product._id);
+
+            if (cartItem) {
+              return {
+                ...product,
+                quantity: Math.max(product.quantity - cartItem.quantity, 0)
+              };
+            }
+            return product;
+        });
+        setProducts(updatedProducts);
+
+        // console.log("after updating : ", updatedProducts);
       } catch (error) {
         console.log("Failed to fetch products:", error);
       }
     };
+
     fetchProducts();
   }, []);
 
@@ -29,6 +48,23 @@ function Products(props) {
   }
 
   const addToCart = (product) => {
+
+    if (product.quantity <= 0) {
+      alert("Out of stock");
+      return;
+    }
+
+    const updatedProducts = products.map((p) => {
+      if (product._id === p._id) {
+        return {
+          ...p,
+          quantity: p.quantity - 1
+        };
+      }
+      return p;
+    });
+    setProducts(updatedProducts);
+
     const existing = JSON.parse(localStorage.getItem("cart")) || [];
     const found = existing.find((p) => p._id === product._id);
 
@@ -67,9 +103,6 @@ function Products(props) {
             maxHeight:"200px",
             padding:"0 80px",
             marginBottom:"30px",
-            // position:"absolute",
-            // zIndex:"100",
-            // background:"black"
           }}
         >
           {filteredProducts.map((p) => (
@@ -80,12 +113,25 @@ function Products(props) {
                   <h6>{p.name}</h6>
                   <p>₹{p.price}</p>
 
-                  <button
+                  {p.quantity <= 0 ? (
+                    <button className="btn btn-sm btn-secondary" disabled>
+                      Out of Stock
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-sm btn-primary"
+                      onClick={() => addToCart(p)}
+                    >
+                      Add to Cart
+                    </button>
+                  )}
+
+                  {/* <button
                     className="btn btn-sm btn-secondary"
                     onClick={() => addToCart(p)}
                   >
                     Add to Cart
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>
@@ -100,14 +146,6 @@ function Products(props) {
       />
         </div>
       )}
-
-      {/* {!props.restrict && <hr
-        style={{
-          width: "100%",
-          margin: "20px auto",
-          border: "2px solid #000000",
-        }}
-      />} */}
 
       <div className="row mt-3"
         style={{
@@ -124,12 +162,19 @@ function Products(props) {
                 <h6>{p.name}</h6>
                 <p>₹{p.price}</p>
 
-                <button
-                  className="btn btn-sm btn-primary"
-                  onClick={() => addToCart(p)}
-                >
-                  Add to Cart
-                </button>
+                 {p.quantity <= 0 ? (
+                    <button className="btn btn-sm btn-secondary" disabled>
+                      Out of Stock
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-sm btn-primary"
+                      onClick={() => addToCart(p)}
+                    >
+                      Add to Cart
+                    </button>
+                  )}
+
               </div>
             </div>
           </div>
