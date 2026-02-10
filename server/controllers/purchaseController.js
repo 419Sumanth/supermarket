@@ -1,4 +1,5 @@
 import Purchase from "../models/Purchase.js";
+import Product from "../models/Product.js"
 
 /**
  * @desc   Create a new purchase
@@ -27,11 +28,38 @@ export const addPurchase = async (req, res) => {
       });
     }
 
+    //checking are items are under stock or not
+    for (let item of items) {
+      const product = await Product.findById(item.productId);
+
+      if (!product) {
+        return res.status(404).json({
+          success: false,
+          message: `Product not found: ${item.productId}`
+        });
+      }
+
+      if (product.quantity < item.quantity) {
+        return res.status(400).json({
+          success: false,
+          message: `Order Failed, Not enough stock for ${product.name}. Available quantity:  ${product.quantity}`
+        });
+      }
+    }
+
+    //reducing the quantity
+     for (let item of items) {
+      const product = await Product.findById(item.productId);
+
+      product.quantity = product.quantity - item.quantity;
+        await product.save();
+    }
+
     if (purchasePrice === undefined) {
-      return res.status(400).json({
+        return res.status(400).json({
         success: false,
         message: "purchasePrice is required"
-      });
+        });
     }
 
     if (paymentstatus === undefined) {

@@ -1,18 +1,47 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import purchasesApi from "../../api/purchasesApi";
-import instance from "../../api/axios";
-
+import productApi  from "../../api/productApi";
 function Cart() {
   const navigate = useNavigate();
 
+  const [products, setProducts] = useState([]);
   const [cart, setCart] = useState(() => {
     const saved = localStorage.getItem("cart");
     return saved ? JSON.parse(saved) : [];
   });
 
   useEffect(() => {
+    // const fetchProducts = async () => {
+    //   try {
+    //     const data = await productApi.getAllProducts();
+    //     const tempProducts = data.data.products;
+
+    //     const updatedCart = cart.filter((cartItem) => {
+    //       const product = tempProducts.find((p) => p._id === cartItem._id);
+
+    //       // if product not found or stock exhausted -> remove from cart
+    //       if (!product || product.quantity <= 0) {
+    //         return false;
+    //       }
+    //       // if cart qty is more than stock -> remove it
+    //       if (cartItem.quantity > product.quantity) {
+    //         return false;
+    //       }
+    //       return true;
+    //    });
+
+    //     localStorage.setItem("cart", JSON.stringify(updatedCart));
+    //     setCart(updatedCart);
+    //     // console.log("after updating : ", updatedProducts);
+    //   } catch (error) {
+    //     localStorage.setItem("cart", JSON.stringify(cart));
+    //     console.log("Failed to fetch products:", error);
+    //   }
+    // };
+    
     localStorage.setItem("cart", JSON.stringify(cart));
+    // fetchProducts();
   }, [cart]);
 
   // Calculate total amount and quantity
@@ -20,6 +49,7 @@ function Cart() {
   const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const removeItem = (id) => {
+    console.log("removing item with id : ", id);
     setCart(cart.filter((item) => item._id !== id));
   };
 
@@ -54,10 +84,10 @@ function Cart() {
       navigate("/user/orders");
     
     }catch(error){
-       alert("Failed to place order. Please try again.");
+       alert(error.response?.data.message);
        navigate("/user/cart");
-       console.log("Add Purchase Error:", error.response?.data || error.message);
-       throw error.response?.data || error.message;
+       console.log("Add Purchase Error:", error.response?.data.message);
+      //  throw error.response?.data || error.message;
     }
   };
 
